@@ -58,12 +58,6 @@
     <a href="chat">Prescription with AI Bot</a>
 </div>
 <div class="pres_submit">
-    <a href="Prescription">Prescription with Doctor</a>
-</div>
-<div class="pres_submit">
-    <a href="displayPrescriptionForm">Doctor's Prescription</a>
-</div>
-<div class="pres_submit">
     <a href="alterDoctorPrescriptionForm">Give prescription as a doctor</a>
 </div>
 </body>

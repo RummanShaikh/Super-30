@@ -12,11 +12,13 @@ import com.rumman.chatgpt.ai.entities.ApiResponse;
 import com.rumman.chatgpt.ai.services.AiRequestProcessor;
 
 import lombok.AllArgsConstructor;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
 
 
 //@RestController
+
 @Controller
 @AllArgsConstructor
 public class ApiController {
@@ -25,10 +27,20 @@ public class ApiController {
 	private final AiRequestProcessor aiProcessor;
 	private PrescriptionRepository prescriptionRepository;
 
-//	@PostMapping
-//	public Prescription createPrescription(@RequestBody Prescription prescription) {
-//		return prescriptionRepository.save(prescription);
-//	}
+	@Autowired
+	private RestTemplate restTemplate;
+
+	@GetMapping("/example")
+	public String example() {
+		// Interpolate the ID into the URL
+		int id=52;
+		String url = "http://localhost:6969/appointments/" + id;
+
+		// Use RestTemplate to make HTTP requests
+		String response = restTemplate.getForObject(url, String.class);
+
+		return "Response: " + response;
+	}
 
 //	@GetMapping("/chat")
 	@RequestMapping("/welcome")
@@ -53,25 +65,12 @@ public class ApiController {
 		return "chat";
     }
 
-	@RequestMapping("/Prescription")
-	public String showPrescriptionForm(Model model) {
-		model.addAttribute("prescription", new Prescription());
-		System.out.println("Prescription_Form");
-		return "Prescription";
-	}
-
 	@PostMapping("/submitPrescription")
 	public String createPrescription(@ModelAttribute Prescription prescription, Model model) {
 		Prescription savedPrescription = prescriptionRepository.save(prescription);
 		model.addAttribute("prescription", savedPrescription);
 		System.out.println("Data Saved");
 		return "submitPrescription";
-	}
-
-	@GetMapping("/displayPrescriptionForm")
-	public String displayPrescriptionForm() {
-		System.out.println("displayPrescriptionForm");
-		return "displayPrescriptionForm";
 	}
 
 	@GetMapping("/displayPrescriptionResult")
