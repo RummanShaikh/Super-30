@@ -1,0 +1,43 @@
+spring:
+  main:
+    web-application-type: reactive
+  application:
+    name: api-gateway
+
+  cloud:
+    gateway:
+      routes:
+        - id: prescription
+          uri: lb://prescription
+          predicates:
+            - Path=/prescription/**
+          filters:
+            - StripPrefix=1
+
+        - id: login
+          uri: lb://login
+          predicates:
+            - Path=/login/**
+          filters:
+            - StripPrefix=1
+
+        - id: record
+          uri: lb://record
+          predicates:
+            - Path=/record/**
+          filters:
+            - StripPrefix=1
+
+        - id: appointment
+          uri: lb://appointment
+          predicates:
+            - Path=/appointment/**
+          filters:
+            - StripPrefix=1
+server:
+  port: 8888
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:1111/eureka
