@@ -1,8 +1,10 @@
 package com.rumman.chatgpt.ai.controllers;
 
 import com.rumman.chatgpt.ai.entities.Prescription;
+import com.rumman.chatgpt.ai.entities.gpt_responses.Appointment;
 import com.rumman.chatgpt.ai.repository.PrescriptionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -27,22 +29,31 @@ public class ApiController {
 	private final AiRequestProcessor aiProcessor;
 	private PrescriptionRepository prescriptionRepository;
 
+//	@PostMapping
+//	public Prescription createPrescription(@RequestBody Prescription prescription) {
+//		return prescriptionRepository.save(prescription);
+//	}
+
+//	@GetMapping("/chat")
+
 	@Autowired
 	private RestTemplate restTemplate;
 
 	@GetMapping("/example")
-	public String example() {
+	public String example(Model model) {
 		// Interpolate the ID into the URL
 		int id=52;
-		String url = "http://localhost:6969/appointments/" + id;
+		String url = "http://localhost:6969/appointments/" + 1;
 
 		// Use RestTemplate to make HTTP requests
-		String response = restTemplate.getForObject(url, String.class);
-
-		return "Response: " + response;
+		ResponseEntity<Appointment> response = restTemplate.getForEntity(url, Appointment.class);
+		Appointment appointment = response.getBody();
+		System.out.println(response);
+		model.addAttribute("appointment", appointment);
+		//return response;
+		return "appointmentDetails";
 	}
 
-//	@GetMapping("/chat")
 	@RequestMapping("/welcome")
 	public String showChatPage(Model model) {
 		model.addAttribute("response","");
@@ -65,12 +76,25 @@ public class ApiController {
 		return "chat";
     }
 
+	@RequestMapping("/Prescription")
+	public String showPrescriptionForm(Model model) {
+		model.addAttribute("prescription", new Prescription());
+		System.out.println("Prescription_Form");
+		return "Prescription";
+	}
+
 	@PostMapping("/submitPrescription")
 	public String createPrescription(@ModelAttribute Prescription prescription, Model model) {
 		Prescription savedPrescription = prescriptionRepository.save(prescription);
 		model.addAttribute("prescription", savedPrescription);
 		System.out.println("Data Saved");
 		return "submitPrescription";
+	}
+
+	@GetMapping("/displayPrescriptionForm")
+	public String displayPrescriptionForm() {
+		System.out.println("displayPrescriptionForm");
+		return "displayPrescriptionForm";
 	}
 
 	@GetMapping("/displayPrescriptionResult")

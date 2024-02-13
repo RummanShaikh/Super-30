@@ -120,7 +120,7 @@
 
     try {
         Class.forName("com.mysql.cj.jdbc.Driver");
-        con = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "Rumman@2409");
+        con = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "root");
         stmt = con.createStatement();
         rs = stmt.executeQuery("SELECT * FROM prescription");
 
