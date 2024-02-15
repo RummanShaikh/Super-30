@@ -114,29 +114,34 @@
 
 <body>
 <ul class="navbar">
+    <a href="http://localhost:8888/record/display">
     <li style="--bg-color: #a9c700;">
+
         <span class="icon"><i class="ph-house"></i></span>
         <span class="text">Home</span>
     </li>
+    </a>
     <li style="--bg-color: #E9724C;">
         <span class="icon"><i class="ph-user"></i></span>
         <span class="text">About</span>
     </li>
+    <a href="http://localhost:8080/welcome">
     <li style="--bg-color: #C5283D;">
+
         <span class="icon"><i class="ph ph-prescription"></i></span>
-        <a href="http://localhost:8080/chat" class="text">PRESCRIPTION</a>
+        <span class="text">Prescription</span>
     </li>
+    </a>
+    <a href="http://localhost:8888/appointment/patient">
     <li style="--bg-color: #54bcce;">
+
         <span class="icon"><i class="ph ph-first-aid"></i></span>
-        <a href="http://localhost:6969/appointmentForm" class="text">Appointment</a>
+        <span class="text">Appointment</span>
     </li>
+    </a>
     <li style="--bg-color: #0c68a5;">
         <span class="icon"><i class="ph-phone"></i></span>
         <span class="text">Contact</span>
-    </li>
-    <li style="--bg-color: #FFD700 ;">
-        <span class="icon"><i class="ph-person"></i></span>
-        <span class="text">RESULT</span>
     </li>
 </ul>
 

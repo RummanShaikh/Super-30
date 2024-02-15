@@ -3,16 +3,17 @@ package com.example.login.Controller;
 import com.example.login.Model.User;
 import com.example.login.Repository.UserRepository;
 import com.example.login.Service.UserService;
-import jakarta.servlet.http.HttpServletRequest;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.HttpSessionRequiredException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.sql.Date;
 
@@ -60,59 +61,98 @@ public class HomeController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/log")
+    @Autowired
+    private RestTemplate restTemplate;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @PostMapping ("/log")
     public String loginHomepage(@RequestParam("email1") String userName,
                                 @RequestParam("password1") String password, Model model) {
-        System.out.println("Log");
-        User user = null;
-
+        User u = null;
+        User p = null;
         try {
-            user = userRepository.findByEmail(userName);
+            u = userRepository.findByEmail(userName);
+            //p = userRepository.findByPassword(password);
         } catch (Exception e) {
             System.out.println("User not found !!!");
         }
+        if (u != null && u.getPassword().equals(password)) {
+            model.addAttribute("USERNAME", userName);
+            String role = u.getRole();
+            if (role != null && role.equals("admin")) {
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_JSON);
+                String userJson;
+                try {
+                    userJson = objectMapper.writeValueAsString(u);
+                } catch (JsonProcessingException e) {
+                    // Handle serialization exception
+                    e.printStackTrace();
+                    return "error";
+                }
+                HttpEntity<String> requestEntity = new HttpEntity<>(userJson, headers);
 
-        if (user != null && user.getPassword().equals(password)) {
-            if ("doctor".equalsIgnoreCase(user.getRole())) {
-                // Redirect to doctor's page
-                model.addAttribute("USERNAME", userName);
-                return "doctor"; // Change to the appropriate doctor's page
-            } else if ("patient".equalsIgnoreCase(user.getRole())) {
-                // Redirect to patient's page
-                model.addAttribute("USERNAME", userName);
-                return "dashboard"; // Change to the appropriate patient's page
+                String otherMicroserviceUrl = "http://localhost:8888/record"; // Replace with the actual URL
+
+                // Send User object to the other microservice using RestTemplate
+                ResponseEntity<String> responseEntity = restTemplate.postForEntity(otherMicroserviceUrl + "/receiveUser", requestEntity, String.class);
+
+                return "redirect:http://localhost:8888/record/display";
+            } else if (role != null && role.equals("doctor")) {
+
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_JSON);
+                String userJson;
+                try {
+                    userJson = objectMapper.writeValueAsString(u);
+                } catch (JsonProcessingException e) {
+                    // Handle serialization exception
+                    e.printStackTrace();
+                    return "error";
+                }
+                HttpEntity<String> requestEntity = new HttpEntity<>(userJson, headers);
+
+                String otherMicroserviceUrl = "http://localhost:8888/appointment"; // Replace with the actual URL
+
+                // Send User object to the other microservice using RestTemplate
+                ResponseEntity<String> responseEntity = restTemplate.postForEntity(otherMicroserviceUrl + "/receiveUser", requestEntity, String.class);
+
+                return "redirect:http://localhost:8888/appointment/doctor";
             }
-        }
+            else {
 
-        model.addAttribute("error", "User Not Found or Invalid Credentials");
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_JSON);
+                String userJson;
+                try {
+                    userJson = objectMapper.writeValueAsString(u);
+                } catch (JsonProcessingException e) {
+                    // Handle serialization exception
+                    e.printStackTrace();
+                    return "error";
+                }
+                HttpEntity<String> requestEntity = new HttpEntity<>(userJson, headers);
+
+                String otherMicroserviceUrl = "http://localhost:8888/appointment"; // Replace with the actual URL
+
+                // Send User object to the other microservice using RestTemplate
+                ResponseEntity<String> responseEntity = restTemplate.postForEntity(otherMicroserviceUrl + "/receiveUser", requestEntity, String.class);
+
+                return "redirect:http://localhost:8888/appointment/patient";
+            }
+            //return "redirect:http://localhost:8888/appointment/patient";
+        }
+        model.addAttribute("error", "User Not Found, Kindly register!!");
+
+        ResponseEntity<String> entity= new ResponseEntity<>(userName, HttpStatus.OK);
 
         return "page";
     }
-//
-//    @Autowired
-//    private HttpServletRequest request;
-//
-//    @PostMapping("/log")
-//    public String loginHomepage(@RequestParam("email1") String userName,
-//                                @RequestParam("password1") String password, Model model) {
-//        User u = null;
-//        User p = null;
-//        try {
-//            u = userRepository.findByEmail(userName);
-//            p = userRepository.findByPassword(password);
-//        } catch (Exception e) {
-//            System.out.println("User not found !!!");
-//        }
-//        if (u != null && p != null) {
-//            model.addAttribute("USERNAME", userName);
-//            // Redirect to the desired URL using HttpServletRequest
-//            return "forward:/login/log"; // forward instead of redirect
-//        }
-//        model.addAttribute("error", "User Not Found, Kindly register!!");
-//        return "page";
-//    }
 
-    @GetMapping("/logout")
+
+    @GetMapping("/login/logout")
     public String out(Model model)
     {
         return "page";

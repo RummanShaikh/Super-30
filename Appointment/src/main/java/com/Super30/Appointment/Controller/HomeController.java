@@ -2,11 +2,14 @@ package com.Super30.Appointment.Controller;
 
 import com.Super30.Appointment.Model.Appointment;
 import com.Super30.Appointment.Model.Doctor;
+import com.Super30.Appointment.Model.User;
 import com.Super30.Appointment.Repository.AppointmentRepository;
 import com.Super30.Appointment.Repository.DoctorRepository;
 import com.Super30.Appointment.Service.AppointmentService;
 import com.Super30.Appointment.Service.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -27,17 +30,35 @@ public class HomeController {
         this.appointmentService = appointmentService;
     }
 
+//    @GetMapping("/appointments/{Id}")
+//    public Appointment getAppointmentById(@PathVariable Long Id, Model model) {
+//        Appointment appointment = appointmentService.getAppointmentById(Id);
+////        if (appointment == null) {
+////            // Handle case where appointment is not found
+////            return "appointmentNotFound"; // Ensure you have an appointmentNotFound.html template
+////        }
+//        //model.addAttribute("appointment", appointment);
+//        System.out.println("Appointment details: " + appointment); // Logging appointment details
+//        return appointment;
+//    }
+
     @GetMapping("/appointments/{Id}")
-    public String getAppointmentById(@PathVariable Long Id, Model model) {
+    public ResponseEntity<?> getAppointmentById(@PathVariable Long Id) {
         Appointment appointment = appointmentService.getAppointmentById(Id);
-//        if (appointment == null) {
-//            // Handle case where appointment is not found
-//            return "appointmentNotFound"; // Ensure you have an appointmentNotFound.html template
-//        }
-        model.addAttribute("appointment", appointment);
-        System.out.println("Appointment details: " + appointment); // Logging appointment details
-        return "appointmentDetails";
+        if (appointment == null) {
+            // Handle case where appointment is not found
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(appointment);
     }
+
+    @PostMapping("/receiveUser")
+    public ResponseEntity<String> receiveUser(@RequestBody User user) {
+        // Process the received user object
+        System.out.println("Received user: " + user.toString());
+        return new ResponseEntity<>("User received successfully", HttpStatus.OK);
+    }
+
 
     @RequestMapping("/patient")
     public String showPage(Model model) {

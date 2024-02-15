@@ -226,7 +226,7 @@
 
 <div class="container" id="container">
     <div class="form-container sign-up">
-        <form action="/register" method="post">
+        <form action="register" method="post">
             <h1>Create Account</h1>
             <div class="social-icons">
                 <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
