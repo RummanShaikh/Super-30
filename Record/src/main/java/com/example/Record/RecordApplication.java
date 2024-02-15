@@ -18,8 +18,7 @@ public class RecordApplication {
 	}
 
 	@Bean
-	@LoadBalanced
-	public RestTemplate createRestTemplate()
+	public RestTemplate restTemplate()
 	{
 		return new RestTemplate();
 	}

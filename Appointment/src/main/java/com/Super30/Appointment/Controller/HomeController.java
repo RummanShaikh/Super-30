@@ -52,6 +52,18 @@ public class HomeController {
         return ResponseEntity.ok(appointment);
     }
 
+    @GetMapping("/appointment/all")
+    public ResponseEntity<List<Appointment>> getAppointment()
+    {
+        List<Appointment> appointment=appointmentService.getAppointmets();
+        if (appointment == null) {
+            // Handle case where appointment is not found
+            return ResponseEntity.notFound().build();
+        }
+        System.out.println(appointment);
+        return ResponseEntity.ok(appointment);
+    }
+
     @PostMapping("/receiveUser")
     public ResponseEntity<String> receiveUser(@RequestBody User user) {
         // Process the received user object

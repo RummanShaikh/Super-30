@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -35,15 +37,35 @@ public class PatientController {
 
     @GetMapping("/display")
     public String display(Model model) {
-        
-        List<Patient> patients = patientRepository.findAll();
-        model.addAttribute("patients", patients);
-        for (Patient patient: patients)
-        {
-            System.out.println(patient);
-        }
-        
-        return "display";
+
+        String url = "http://localhost:6969/appointment/all";
+
+        // Use RestTemplate to make HTTP requests
+        ResponseEntity<List<Appointment>> response = restTemplate.exchange(
+                url,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<Appointment>>() {}
+        );
+        List<Appointment> appointments = response.getBody();
+        model.addAttribute("appointments", appointments);
+        System.out.println(appointments);
+
+        String url1 = "http://localhost:8080/prescription/all";
+
+        // Use RestTemplate to make HTTP requests
+        ResponseEntity<List<Prescription>> response1 = restTemplate.exchange(
+                url1,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<Prescription>>() {}
+        );
+        List<Prescription> prescription = response1.getBody();
+        model.addAttribute("prescription", prescription);
+        System.out.println(prescription);
+
+        return "appointmentDetails";
+
     }
 
     @PostMapping("/receiveUser")
@@ -83,4 +105,21 @@ public class PatientController {
         System.out.println(response);
         return response;
     }
+
+//    @GetMapping("/example")
+//    public String example(Model model) {
+//        String url = "http://localhost:6969/appointment/all";
+//
+//        // Use RestTemplate to make HTTP requests
+//        ResponseEntity<List<Appointment>> response = restTemplate.exchange(
+//                url,
+//                HttpMethod.GET,
+//                null,
+//                new ParameterizedTypeReference<List<Appointment>>() {}
+//        );
+//        List<Appointment> appointments = response.getBody();
+//        model.addAttribute("appointments", appointments);
+//        System.out.println(appointments);
+//        return "appointmentDetails";
+//    }
 }

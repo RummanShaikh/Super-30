@@ -134,6 +134,17 @@ public class ApiController {
 		return "alterDoctorPrescriptionForm";
 	}
 
+	@GetMapping("/prescription/all")
+	public ResponseEntity<List<Prescription>> getAppointment()
+	{
+		List<Prescription> appointment=prescriptionRepository.findAll();
+		if (appointment == null) {
+			// Handle case where appointment is not found
+			return ResponseEntity.notFound().build();
+		}
+		System.out.println(appointment);
+		return ResponseEntity.ok(appointment);
+	}
 
 	@PostMapping("/alterDoctorPrescription")
 	public String alterDoctorPrescription(
