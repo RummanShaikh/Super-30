@@ -13,7 +13,7 @@ public class Appointment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long Id;
-    private String patient_name;
+    private String patientName;
     private String doctor_name;
     private Date date;
     private String time;
@@ -30,11 +30,11 @@ public class Appointment {
     }
 
     public String getPatient_name() {
-        return patient_name;
+        return patientName;
     }
 
     public void setPatient_name(String patient_name) {
-        this.patient_name = patient_name;
+        this.patientName = patient_name;
     }
 
     public String getDoctor_name() {
@@ -75,7 +75,7 @@ public class Appointment {
     public String toString() {
         return "Appointment{" +
                 "Id=" + Id +
-                ", patient_name='" + patient_name + '\'' +
+                ", patient_name='" + patientName + '\'' +
                 ", doctor_name='" + doctor_name + '\'' +
                 ", date=" + date +
                 ", time='" + time + '\'' +
@@ -85,7 +85,7 @@ public class Appointment {
 
     public Appointment(Long id, String patient_name, String doctor_name, Date date, String time, String status) {
         Id = id;
-        this.patient_name = patient_name;
+        this.patientName = patient_name;
         this.doctor_name = doctor_name;
         this.date = date;
         this.time = time;

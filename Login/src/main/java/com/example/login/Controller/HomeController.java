@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.sql.Date;
+import java.util.List;
 
 @Controller
 @SessionAttributes
@@ -24,6 +25,7 @@ public class HomeController {
     @Autowired
     private UserRepository userRepository;
 
+    //Landing page of website
     @RequestMapping("/")
     public String landingPage(Model model)
     {
@@ -31,6 +33,7 @@ public class HomeController {
     }
 
 
+    //Function for register
     @PostMapping("/register")
     public String submit(@RequestParam("name") String name,
                          @RequestParam("email") String email,
@@ -67,6 +70,7 @@ public class HomeController {
     @Autowired
     private ObjectMapper objectMapper;
 
+    //Function for login
     @PostMapping ("/log")
     public String loginHomepage(@RequestParam("email1") String userName,
                                 @RequestParam("password1") String password, Model model) {
@@ -81,6 +85,7 @@ public class HomeController {
         if (u != null && u.getPassword().equals(password)) {
             model.addAttribute("USERNAME", userName);
             String role = u.getRole();
+            //If user is admin
             if (role != null && role.equals("admin")) {
                 HttpHeaders headers = new HttpHeaders();
                 headers.setContentType(MediaType.APPLICATION_JSON);
@@ -100,7 +105,9 @@ public class HomeController {
                 ResponseEntity<String> responseEntity = restTemplate.postForEntity(otherMicroserviceUrl + "/receiveUser", requestEntity, String.class);
 
                 return "redirect:http://localhost:8888/record/display";
-            } else if (role != null && role.equals("doctor")) {
+            }
+            //If user is doctor
+            else if (role != null && role.equals("doctor")) {
 
                 HttpHeaders headers = new HttpHeaders();
                 headers.setContentType(MediaType.APPLICATION_JSON);
@@ -121,6 +128,7 @@ public class HomeController {
 
                 return "redirect:http://localhost:8888/appointment/doctor";
             }
+            //If user is patient
             else {
 
                 HttpHeaders headers = new HttpHeaders();
@@ -152,9 +160,27 @@ public class HomeController {
     }
 
 
+    //Logout
     @GetMapping("/login/logout")
     public String out(Model model)
     {
         return "page";
+    }
+
+    //Update role
+    @GetMapping("/update_doctor")
+    public String updateDoctor(Model model)
+    {
+        List<User> lists=userRepository.findAll();
+        model.addAttribute("lists",lists);
+        return "updateDoctor";
+    }
+
+    @PostMapping("/confirmDoctor")
+    public String confirmAppointment(@RequestParam("confirmingId") Long id,
+                                     @RequestParam("confirmingrole") String role) {
+
+        userService.updateDoctor(id, role);
+        return "redirect:/update_doctor";
     }
 }

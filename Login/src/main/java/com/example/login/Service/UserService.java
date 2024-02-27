@@ -19,4 +19,16 @@ public class UserService {
         return userRepository.existsByEmail(email);
     }
 
+    public void updateDoctor(Long Id, String role) {
+        if (Id != null) {
+            Optional<User> existing = userRepository.findById(Id);
+
+            if (existing.isPresent()) {
+                User existingAppointment = existing.get();
+                existingAppointment.setRole(role);
+                userRepository.save(existingAppointment);
+            }
+        }
+    }
+
 }

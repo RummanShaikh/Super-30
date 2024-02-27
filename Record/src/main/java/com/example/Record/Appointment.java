@@ -6,6 +6,7 @@ import jakarta.persistence.Id;
 
 import java.sql.Date;
 
+//Stores data from appointment microservice
 public class Appointment {
 
     @jakarta.persistence.Id

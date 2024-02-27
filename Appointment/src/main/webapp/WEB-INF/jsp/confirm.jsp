@@ -6,24 +6,47 @@
 <head>
     <title>Appointments</title>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa; /* Set background color to light grey */
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #007bff; /* Set header color to blue */
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
         table {
-            border-collapse: collapse;
             width: 100%;
+            border-collapse: collapse;
+            background-color: #fff; /* Set table background color to white */
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             margin-top: 20px;
         }
 
         th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
+            padding: 12px;
             text-align: left;
+            border-bottom: 1px solid #ddd;
         }
 
         th {
-            background-color: #f2f2f2;
+            background-color: #f2f2f2; /* Set header row background color to light grey */
+            color: #333; /* Set header row text color to dark grey */
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa; /* Set even row background color to slightly lighter grey */
         }
 
         .container {
             margin-top: 20px;
+            text-align: center;
         }
 
         .container label {
@@ -38,17 +61,23 @@
             box-sizing: border-box;
         }
 
-        .container button {
-            background-color: #4CAF50;
-            color: white;
+        .btn {
             padding: 10px 20px;
-            border: none;
+            background-color: #007BFF;
+            color: #fff;
+            border: 2px solid #007BFF; /* Add border */
             border-radius: 5px;
             cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease; /* Add transition effect */
+            text-decoration: none; /* Remove default link underline */
+            display: inline-block; /* Make the link a block element */
+            margin: 10px; /* Add margin for spacing */
         }
 
-        .container button:hover {
-            background-color: #45a049;
+        .btn:hover {
+            background-color: #ffffff; /* Change background color on hover */
+            color: #007BFF; /* Change text color on hover */
+            border-color: #007BFF; /* Change border color on hover */
         }
     </style>
 </head>
@@ -89,7 +118,7 @@
         <label for="confirmingTime">Enter Time to Confirm</label>
         <input type="text" id="confirmingTime" name="confirmingTime" placeholder="HH:mm" required>
 
-        <button type="submit">Confirm Appointment</button>
+        <button class="btn" type="submit">Confirm Appointment</button>
     </form>
 </div>
 

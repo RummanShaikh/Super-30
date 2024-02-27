@@ -1,11 +1,13 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome to Doctor Appointment Booking</title>
     <style>
         body {
-            background-image: url('https://static.vecteezy.com/system/resources/thumbnails/012/910/429/small/stethoscope-with-calendar-page-date-on-wood-table-background-doctor-appointment-medical-concept-photo.jpg');
-            background-size: cover;
+            background-color: #ffffff; /* Set background color to white */
             margin: 0;
             padding: 0;
             font-family: Arial, sans-serif;
@@ -18,7 +20,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5); /* Adjust the alpha value for the desired level of blur */
+            background: rgba(255, 255, 255, 0.5); /* Adjust the alpha value for the desired level of blur */
             z-index: -1;
         }
 
@@ -28,24 +30,28 @@
             left: 50%;
             transform: translate(-50%, -50%);
             text-align: center;
-            color: #fff;
+            color: #333333; /* Change text color */
             z-index: 1;
         }
 
+        /* Styled button */
         .btn {
-            display: inline-block;
             padding: 10px 20px;
-            font-size: 18px;
-            text-align: center;
-            text-decoration: none;
-            background-color: #4CAF50;
+            background-color: #007BFF;
             color: #fff;
+            border: 2px solid #007BFF; /* Add border */
             border-radius: 5px;
-            margin: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease; /* Add border-color transition */
+            text-decoration: none; /* Remove default link underline */
+            display: inline-block; /* Make the link a block element */
+            margin: 10px; /* Add margin for spacing */
         }
 
         .btn:hover {
-            background-color: #45a049;
+            background-color: #ffffff; /* Change background color on hover */
+            color: #007BFF; /* Change text color on hover */
+            border-color: #007BFF; /* Change border color on hover */
         }
     </style>
 </head>

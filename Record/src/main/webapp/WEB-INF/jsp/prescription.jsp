@@ -163,94 +163,38 @@
         <span class="icon"><i class="ph-phone"></i></span>
         <span class="text">Contact</span>
     </li>
-<a href="http://localhost:8888/login/">
-    <li style="--bg-color: #0c68a5;">
-        <span class="icon"><i class="ph ph-sign-out"></i></span>
-        <span class="text">Logout</span>
-    </li>
-</a>
+    <a href="http://localhost:8888/login/">
+        <li style="--bg-color: #0c68a5;">
+            <span class="icon"><i class="ph ph-sign-out"></i></span>
+            <span class="text">Logout</span>
+        </li>
+    </a>
 </ul>
 
+<h1>Display Prescription</h1>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Prescription</th>
+        <th>Patient Name</th>
+        <th>Symptoms</th>
+    </tr>
+    </thead>
+    <tbody>
+    <c:forEach items="${prescription}" var="patient">
+        <tr>
+            <td><c:out value="${patient.id}" /></td>
+            <td><c:out value="${patient.doctorprescriptionText}" /></td>
+            <td><c:out value="${patient.patientName}" /></td>
+            <td><c:out value="${patient.prescriptionText}" /></td>
+        </tr>
+    </c:forEach>
+    </tbody>
+</table><br>
 
-<%--<h1>Display Appointments</h1>--%>
-<%--<table>--%>
-<%--    <thead>--%>
-<%--    <tr>--%>
-<%--        <th>ID</th>--%>
-<%--        <th>Date</th>--%>
-<%--        <th>Doctor Name</th>--%>
-<%--        <th>Patient Name</th>--%>
-<%--        <th>Status</th>--%>
-<%--        <th>Time</th>--%>
-<%--    </tr>--%>
-<%--    </thead>--%>
-<%--    <tbody>--%>
-<%--    <c:forEach items="${appointments}" var="patient">--%>
-<%--        <tr>--%>
-<%--            <td><c:out value="${patient.id}" /></td>--%>
-<%--            <td><c:out value="${patient.date}" /></td>--%>
-<%--            <td><c:out value="${patient.doctor_name}" /></td>--%>
-<%--            <td><c:out value="${patient.patient_name}" /></td>--%>
-<%--            <td><c:out value="${patient.status}" /></td>--%>
-<%--            <td><c:out value="${patient.time}" /></td>--%>
-<%--        </tr>--%>
-<%--    </c:forEach>--%>
-<%--    </tbody>--%>
-<%--</table><br>--%>
-
-<%--<h1>Display Prescription</h1>--%>
-<%--<table>--%>
-<%--    <thead>--%>
-<%--    <tr>--%>
-<%--        <th>ID</th>--%>
-<%--        <th>Prescription</th>--%>
-<%--        <th>Patient Name</th>--%>
-<%--        <th>Symptoms</th>--%>
-<%--    </tr>--%>
-<%--    </thead>--%>
-<%--    <tbody>--%>
-<%--    <c:forEach items="${prescription}" var="patient">--%>
-<%--        <tr>--%>
-<%--            <td><c:out value="${patient.id}" /></td>--%>
-<%--            <td><c:out value="${patient.doctorprescriptionText}" /></td>--%>
-<%--            <td><c:out value="${patient.patientName}" /></td>--%>
-<%--            <td><c:out value="${patient.prescriptionText}" /></td>--%>
-<%--        </tr>--%>
-<%--    </c:forEach>--%>
-<%--    </tbody>--%>
-<%--</table><br>--%>
-
-<%--<h1>Doctors</h1>--%>
-<%--<table>--%>
-<%--    <thead>--%>
-<%--    <tr>--%>
-<%--        <th>ID</th>--%>
-<%--        <th>Name</th>--%>
-<%--        <th>Specialization</th>--%>
-<%--    </tr>--%>
-<%--    </thead>--%>
-<%--    <tbody>--%>
-<%--    <c:forEach items="${doctors}" var="patient">--%>
-<%--        <tr>--%>
-<%--            <td><c:out value="${patient.id}" /></td>--%>
-<%--            <td><c:out value="${patient.name}" /></td>--%>
-<%--            <td><c:out value="${patient.specification}" /></td>--%>
-<%--        </tr>--%>
-<%--    </c:forEach>--%>
-<%--    </tbody>--%>
-<%--</table><br>--%>
-<%--<a href="patient">--%>
-<%--    <button type="button">Add Doctor</button>--%>
-<%--</a>--%>
-
-<a href="prescription">
-    <button type="button">Prescription</button>
-</a><br>
-<a href="appointment">
-    <button type="button">Appointment</button>
-</a><br>
-<a href="doctors">
-    <button type="button">See Doctors</button>
+<a href="display">
+    <button type="button">Back</button>
 </a>
 </body>
 </html>
